@@ -1,0 +1,126 @@
+###############################################################################
+#配置门店号
+storeCode=001
+###############################################################################
+# 配置shopweb数库连接信息
+db.driver=com.mysql.jdbc.Driver
+db.url=jdbc:mysql://127.0.0.1:3306/shopweb?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&connectTimeout=30000&socketTimeout=180000&allowMultiQueries=true&useSSL=false&useCompression=true
+db.user.account=root
+db.user.password=123456
+###############################################################################
+#邮件查询字段 （数据库字段名：描述）
+email.field=\
+customer_store_code:门店编号,\
+id:价签ID,\
+sku:商品货号,\
+item_name:商品名称,\
+price1:价格（price1）,\
+status:失败类型,\
+param:价签模板,\
+update_date:下发时间,\
+refresh_date:价签刷新时间
+###############################################################################
+#邮件查询字段 （数据库字段名：描述）
+eslPr.excel.field=\
+update_date:更新时间,\
+customer_store_code:门店编号,\
+id:价签ID,\
+sku:商品编码,\
+ean:商品条码,\
+item_name:商品名称,\
+description:英文名称,\
+level1_category_name:商品类别,\
+grade:等级,\
+unit:单位,\
+brand:品牌,\
+price2_description:英文品牌,\
+specification:规格,\
+place_of_origin:产地,\
+price3_description:英文产地,\
+price1:当前售价,\
+price2:原售价,\
+rsrv_txt1:促销开始日期,\
+rsrv_txt2:促销结束日期,\
+supervised_by:物价员,\
+price1_description:价格类型（促销标识）,\
+inventory:库存数量,\
+rsrv_txt3:在途数量,\
+level2_category_name:预留字段1,\
+level3_category_name:预留字段2,\
+level4_category_name:预留字段3,\
+level5_category_name:预留字段4,\
+rsrv_txt4:预留字段5,\
+rsrv_Txt5:预留字段6                  
+eslPr.email.field=\
+customer_store_code:门店编号,\
+idnum:价签数量,\
+skunum:商品数量
+###############################################################################
+#获取对接文件邮件 （数据库字段名：描述）
+getfile.email.field=\
+storeCode:门店编号,\
+fileName:文件名称,\
+ftpDateSize:总数据,\
+passDateSize:非法数据,\
+successSize:实际更新数据,\
+successState:对接状态,\
+datetime:对接时间
+##########cleanerTimer##########################################################
+#CRON表达式         含义 
+#"0 0 12 * * ?"    每天中午十二点触发 
+#"0 15 10 ? * *"    每天早上10：15触发 
+#"0 15 10 * * ?"    每天早上10：15触发 
+#"0 15 10 * * ? *"    每天早上10：15触发 
+#"0 15 10 * * ? 2005"    2005年的每天早上10：15触发 
+#"0 * 14 * * ?"    每天从下午2点开始到2点59分每分钟一次触发 
+#"0 0/5 14 * * ?"    每天从下午2点开始到2：55分结束每5分钟一次触发 
+#"0 0/5 14,18 * * ?"    每天的下午2点至2：55和6点至6点55分两个时间段内每5分钟一次触发 
+#"0 0-5 14 * * ?"    每天14:00至14:05每分钟一次触发 
+#"0 10,44 14 ? 3 WED"    三月的每周三的14：10和14：44触发 
+#"0 15 10 ? * MON-FRI"    每个周一、周二、周三、周四、周五的10：15触发 
+#定时抢清理文件时间（0 0 6 * * ? 每天6:00清理）
+cleanerTimer=0 * * * * ?
+#文件保留时间(天)
+cleanerKeepTime=3
+#所需清理文件夹路径(多个目录以英文,分隔)
+scaner_path=local,log
+#定时发送邮件时间（0 0 7 * * ? 每天7:00清理）异常价签邮件
+emailTimer=0 * * * * ?
+#门店绑定明细
+eslPrEmailTimer=0 * * * * ?
+#缺货模板绑定价签
+OutOfStockEslPrEmailTimer=0 * * * * ?
+#对接文件状态邮件
+GetFileEmailTimer=0 * * * * ?
+GetFileEmailPath=F:/cdi/shopweb-plugin-apm-huarun/email
+################################################################################
+#获取客户数据文件邮件告警配置  mail.switch0关闭1开启
+mail.switch=1
+mail.smtp.alarm=true
+mail.smtp.limit=3
+mail.smtp.anonymous=false
+#邮件服务器
+mail.smtp.host=smtp.exmail.qq.com
+mail.smtp.charset=utf-8
+#邮件接收账户多个以英文,分隔
+mail.smtp.addressee=tingshuo.zhang@hanshow.com
+#发件邮箱
+mail.smtp.sender=cloud.services@hanshow.com
+mail.smtp.usr=cloud.services@hanshow.com
+mail.smtp.pwd=Hs84998688
+################################################################################
+#客户ftp信息 ftp.switch=0
+ftp.switch=0
+generic.ftpserver.host=127.0.0.1
+generic.ftpserver.port=21
+generic.ftpserver.username=tingshuozhang
+generic.ftpserver.password=zts0103
+#文件上传目录
+generic.ftpserver.path=/txt/
+################################################################################
+#客户本地目录    local.switch0关闭1开启
+local.switch=0
+customer.local.path=G:/ztsFTP/205362/
+################################################################################
+#价签状态描述
+email.status=-1:未激活,0:更新中,1:更新成功,2:激活,3:-,4:黑名单,5:重推中,6:-,10:待处理,11:基站掉线,12:数据错误,13:绑定错误,14:模板错误,15:价签错误,16:超时失败,17:价签离线

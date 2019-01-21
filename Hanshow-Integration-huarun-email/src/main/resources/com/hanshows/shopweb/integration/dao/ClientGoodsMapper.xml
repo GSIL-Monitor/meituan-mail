@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这块等于dao接口的实现 namespace必须和接口的类路径一样 -->
+<mapper namespace="com.hanshows.shopweb.integration.dao.ClientGoodsMapper">
+
+	<!-- findById必须和接口中的方法名一样 返回一个User 就是刚才的别名 如果不弄别名要连类路径一起写 麻烦 -->
+
+	<select id="selectEsl" resultType="HashMap">
+SELECT
+	g.customer_store_code,
+	r.id,
+	g.sku,
+	g.item_name,
+	g.price1,
+	r.refresh_date,
+	r.status,
+	r.param,
+	r.update_date
+FROM
+	hs_esl r,
+	hs_goods g,
+	hs_goods_esl_pr gep
+WHERE
+	r.id = gep.esl_id
+AND g.id = gep.goods_id
+AND r.status in (11,12,16,17,10)
+	</select>
+	
+	
+	<select id="selectAllEslPr" resultType="HashMap">
+SELECT
+g.customer_store_code,
+r.id,
+g.sku,
+g.ean,
+g.item_name,
+g.description,
+g.level1_category_name,
+g.grade,
+g.unit,
+g.brand,
+g.price2_description,
+g.specification,
+g.place_of_origin,
+g.price3_description,
+g.price1,
+g.price2,
+g.rsrv_txt1,
+g.rsrv_txt2,
+g.supervised_by,
+g.price1_description,
+g.inventory,
+g.rsrv_txt3,
+g.level2_category_name,
+g.level3_category_name,
+g.level4_category_name,
+g.level5_category_name,
+g.rsrv_txt4,
+g.rsrv_Txt5,
+	r.update_date 
+FROM
+	hs_esl r,
+	hs_goods g,
+	hs_goods_esl_pr gep 
+WHERE
+	r.id = gep.esl_id 
+	AND g.id = gep.goods_id 
+ORDER BY
+	g.customer_store_code 
+	, g.sku
+	</select>
+	
+ <select id="selectOutOfStockEslPr" resultType="HashMap">
+SELECT
+g.customer_store_code,
+r.id,
+g.sku,
+g.ean,
+g.item_name,
+g.description,
+g.level1_category_name,
+g.grade,
+g.unit,
+g.brand,
+g.price2_description,
+g.specification,
+g.place_of_origin,
+g.price3_description,
+g.price1,
+g.price2,
+g.rsrv_txt1,
+g.rsrv_txt2,
+g.supervised_by,
+g.price1_description,
+g.inventory,
+g.rsrv_txt3,
+g.level2_category_name,
+g.level3_category_name,
+g.level4_category_name,
+g.level5_category_name,
+g.rsrv_txt4,
+g.rsrv_Txt5,
+	r.update_date 
+FROM
+	hs_esl r,
+	hs_goods g,
+	hs_goods_esl_pr gep 
+WHERE
+	r.id = gep.esl_id 
+	AND g.id = gep.goods_id
+	AND g.inventory&lt;=0
+ORDER BY
+	g.customer_store_code 
+	, g.sku
+	</select>
+	
+	<update id="createTableSql" parameterType="map"> 
+	${sql} 
+	</update>
+	
+	<select id="selectCreatTable"  parameterType="map" resultType="HashMap">
+	show columns from ${tableName} 
+	</select>
+	
+	<select id="selectEslpr"  parameterType="map" resultType="HashMap">
+	select * from hs_goods_esl_pr where esl_id = "${ESLId}" 
+	</select>
+	
+	<select id="selectTable"  parameterType="map" resultType="HashMap">
+	select * from ${tableName}
+	</select>
+	
+	<delete id="deleteByKey"  parameterType="map">
+	delete  from ${tableName}  where ${keyName} in (${value})
+	</delete>
+	
+	<update id="insert" parameterType="map"> 
+	REPLACE INTO ${tableName} (${keys}) VALUES ${value}
+	</update>
+	
+	
+	
+</mapper>  
